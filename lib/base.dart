@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:health_one/identifySIckness.dart';
 
 class Base extends StatefulWidget {
   final int? homeCurrentIndex;
-  final CameraDescription camera;
+  final CameraDescription? camera;
   const Base({
     super.key,
     this.homeCurrentIndex,
-    required this.camera,
+    this.camera,
   });
 
   @override
@@ -20,9 +23,9 @@ class _MyBase extends State<Base> {
   int? _homeCurrentIndex;
   int baseCurrentIndex = 0;
   late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
+  Future<void>? _initializeControllerFuture;
 
-  late Future myFuture;
+  late Future? myFuture;
 
   @override
   void initState() {
@@ -32,25 +35,47 @@ class _MyBase extends State<Base> {
       _homeCurrentIndex = 0;
     }
 
-    _controller = CameraController(
-      widget.camera,
-      ResolutionPreset.medium,
-    );
+    // if (widget.camera != null) {
+    //   _controller = CameraController(
+    //     widget.camera!,
+    //     ResolutionPreset.medium,
+    //   );
 
-    _initializeControllerFuture = _controller.initialize();
+    //   _initializeControllerFuture = _controller.initialize();
+    // }
 
     myFuture = firstLoad();
     super.initState();
   }
 
   void setBaseCurrentIndex(BuildContext context, int value) async {
-    if (value == 2) {
-      // AddNewTabView(context);
-    } else {
-      setState(() {
-        baseCurrentIndex = value;
-      });
-    }
+    // if (value == 2) {
+    //   // await _initializeControllerFuture;
+
+    //   // final image = await _controller.takePicture();
+
+    //   // if (!context.mounted) return;
+
+    //   // setState(() {
+    //   //   baseCurrentIndex = value;
+    //   // });
+
+    //   // await Navigator.of(context).push(
+    //   //   MaterialPageRoute(
+    //   //     builder: (context) => DisplayPictureScreen(
+    //   //       imagePath: image.path,
+    //   //     ),
+    //   //   ),
+    //   // );
+    // } else {
+    //   setState(() {
+    //     baseCurrentIndex = value;
+    //   });
+    // }
+
+    setState(() {
+      baseCurrentIndex = value;
+    });
   }
 
   Future<void> fetchStorageData() {
@@ -66,17 +91,6 @@ class _MyBase extends State<Base> {
         builder: (context, snapshot) {
           Map<String, String> _storage_data;
           dynamic user_detail;
-
-          // if (snapshot.connectionState == ConnectionState.done) {
-          //   if (snapshot.hasError) {
-          //     return Container();
-          //   } else if (snapshot.hasData) {
-          //     _storage_data = snapshot.data as Map<String, String>;
-          //     if (_storage_data['user_detail'] != null) {
-          //       user_detail = jsonDecode(_storage_data['user_detail'] as String);
-          //     }
-          //   }
-          // }
 
           return IndexedStack(
             index: baseCurrentIndex,
@@ -102,11 +116,6 @@ class _MyBase extends State<Base> {
                             user_detail == null ? "Hi" : "Hi, ${user_detail['first_name']}",
                             style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
                           ),
-                          // SvgPicture.asset(
-                          //   'assets/icon/NSI-Logo.svg',
-                          //   height: 27,
-                          //   width: 39,
-                          // ),
                         ],
                       ),
                     ),
@@ -114,7 +123,7 @@ class _MyBase extends State<Base> {
                 ],
               ),
               Container(),
-              Container(),
+              IdentifySickness(),
               Container(),
               Container()
             ],
@@ -169,7 +178,22 @@ class _MyBase extends State<Base> {
     );
   }
 
-  Future<void> firstLoad() {
-    return _initializeControllerFuture;
+  Future<void>? firstLoad() {
+    // return _initializeControllerFuture;
+    return Future.value(2020);
+  }
+}
+
+class DisplayPictureScreen extends StatelessWidget {
+  final String imagePath;
+
+  const DisplayPictureScreen({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      body: Image.file(File(imagePath)),
+    );
   }
 }

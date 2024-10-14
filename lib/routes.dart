@@ -6,8 +6,8 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/': (context) {
     Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     return Base(
-      homeCurrentIndex: args!["homeCurrentIndex"],
-      camera: args!["camera"],
+      homeCurrentIndex: args?["homeCurrentIndex"],
+      camera: args?["camera"],
     );
   },
 

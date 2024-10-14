@@ -8,4 +8,8 @@ class GlobalValue {
   void setCameras(CameraDescription value) {
     global.cameras = value;
   }
+
+  CameraDescription? getCameras() {
+    return global.cameras;
+  }
 }

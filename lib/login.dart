@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         bool successLogin = login();
                         if (successLogin) {
-                          Navigator.of(context).pushNamed('/', arguments: {"homeCurrentIndex": 0, "camera": GlobalValue().cameras});
+                          Navigator.of(context).pushNamed('/', arguments: {"homeCurrentIndex": 0, "camera": GlobalValue().getCameras()});
                         }
                       },
                       child: Text(
