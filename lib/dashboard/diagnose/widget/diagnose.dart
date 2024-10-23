@@ -186,6 +186,6 @@ class _DiagnosePageState extends State<DiagnosePage> {
   }
 
   Future firstLoad() async {
-    return await callGPT4Model(widget.imagePath);
+    return await imageProcessingGPT4Model(widget.imagePath);
   }
 }

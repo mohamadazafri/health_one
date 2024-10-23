@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-String prompt =
+String imageProcessingPrompt =
     """You are a medical practictioner and an expert in analzying medical related images working for a very reputed hospital. You will be provided with images and you need to identify the anomalies, any disease or health issues. You need to generate the result in detailed manner. Write all the findings, next steps, recommendation. You only need to respond if the image is related to a human body and health issues. You must have to answer but also write a disclaimer saying that \"Consult with a Doctor before making any decisions\". 
     
     I want this point in your response: 
@@ -48,6 +48,12 @@ String prompt =
 
     Now analyze the image and answer the above questions in the same structured manner defined above.""";
 
+String chatSystemPrompt =
+    """You are a helpful AI health assistant. Your role is to ask the user about their symptoms, help them better understand potential causes, and provide general guidance. 
+However, always remind the user that you are not a substitute for professional medical advice and that they should consult a doctor for a formal diagnosis.
+
+    Please make sure you are not trying to bold, italic or underline any word. Just a plain text.
+""";
 Future<String> encodeImage(imagePath) async {
 // convert image into file object
   File _imageFile = File(imagePath);
@@ -61,7 +67,7 @@ Future<String> encodeImage(imagePath) async {
   return Future.value(base64String);
 }
 
-Future<Map<String, dynamic>> callGPT4Model(String filename) async {
+Future<Map<String, dynamic>> imageProcessingGPT4Model(String filename) async {
   Uri url = Uri.parse("https://api.openai.com/v1/chat/completions");
   String base64Image = await encodeImage(filename);
   String apiAccessToken = dotenv.env["OPENAI_API_KEY"]!;
@@ -82,7 +88,7 @@ Future<Map<String, dynamic>> callGPT4Model(String filename) async {
           'content': [
             {
               'type': 'text',
-              'text': prompt,
+              'text': imageProcessingPrompt,
             },
             {
               'type': 'image_url',
@@ -103,10 +109,44 @@ Future<Map<String, dynamic>> callGPT4Model(String filename) async {
   } else {
     return resData;
   }
-  // }
-  // catch (e) {
-  //   throw Exception('Error: $e');
-  // }
+}
+
+Future<Map<String, dynamic>> chatGPT4Model(List messageHistory) async {
+  Uri url = Uri.parse("https://api.openai.com/v1/chat/completions");
+  String apiAccessToken = dotenv.env["OPENAI_API_KEY"]!;
+
+  // try {
+  final response = await http.post(
+    url,
+    headers: <String, String>{
+      "Authorization": "Bearer $apiAccessToken",
+      "Content-Type": "application/json",
+    },
+    body: jsonEncode({
+      'model': "gpt-4o-mini",
+      'messages': [
+        {'role': 'system', 'content': chatSystemPrompt},
+        ...messageHistory
+        // {
+        //   'role': 'user',
+        //   'content': [
+        //     {
+        //       'type': 'text',
+        //       'text': userMessage,
+        //     },
+        //   ],
+        // },
+      ],
+      'max_tokens': 2000,
+    }),
+  );
+
+  Map<String, dynamic> resData = jsonDecode(response.body);
+  if (response.statusCode == 200) {
+    return resData;
+  } else {
+    return resData;
+  }
 }
 
 Map<String, String> formatResponse(String value) {

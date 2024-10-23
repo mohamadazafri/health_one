@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:health_one/dashboard/diagnose/widget/chat.dart';
 import 'package:health_one/dashboard/diagnose/widget/identifySickness.dart';
 import 'package:health_one/dashboard/exercise/widget/exercise.dart';
 
@@ -41,11 +42,11 @@ class _MyBase extends State<Base> {
   }
 
   void setBaseCurrentIndex(BuildContext context, int value) async {
-    if (value == 1) {
-      setIsBottomBarVisible(false);
-    } else {
-      setIsBottomBarVisible(true);
-    }
+    // if (value == 1) {
+    //   setIsBottomBarVisible(false);
+    // } else {
+    //   setIsBottomBarVisible(true);
+    // }
     setState(() {
       baseCurrentIndex = value;
     });
@@ -101,7 +102,8 @@ class _MyBase extends State<Base> {
                   ),
                 ],
               ),
-              IdentifySicknessPage(setBaseCurrentIndex),
+              // IdentifySicknessPage(setBaseCurrentIndex),
+              const ChatPage(),
               const ExercisePage()
             ],
           );

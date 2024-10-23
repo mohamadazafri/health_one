@@ -9,9 +9,8 @@ import 'package:health_one/dashboard/diagnose/widget/diagnose.dart';
 import 'package:health_one/global.dart';
 
 class IdentifySicknessPage extends StatefulWidget {
-  final Function setBaseCurrentIndex;
-  const IdentifySicknessPage(
-    this.setBaseCurrentIndex, {
+  // final Function setBaseCurrentIndex;
+  const IdentifySicknessPage({
     super.key,
   });
 
@@ -118,7 +117,8 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        widget.setBaseCurrentIndex(context, 0);
+                                        // widget.setBaseCurrentIndex(context, 0);
+                                        Navigator.pop(context);
                                       },
                                       child: const Icon(
                                         Icons.arrow_back_ios,
@@ -198,7 +198,7 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                         ),
                       );
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return Container(color: Colors.white, child: const Center(child: CircularProgressIndicator()));
                     }
                   },
                 ),
