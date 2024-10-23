@@ -17,6 +17,12 @@ dependencies:
   camera: ^0.11.0+2
   path_provider: ^2.1.4
   path: ^1.9.0
+  dart_openai: ^5.1.0
+  flutter_dotenv: ^5.2.1
+  colorful_safe_area: ^1.0.0
+  font_awesome_flutter: ^10.7.0
+  dynamic_tabbar: ^1.0.8
+  flutter_chat_ui: ^1.6.15
 
 dev_dependencies:
   flutter_test:
@@ -30,5 +36,20 @@ flutter:
     - family: ABeeZee
       fonts:
         - asset: assets/fonts/ABeeZee.ttf
+    - family: AfacadFlux
+      fonts:
+        - asset: assets/fonts/Afacad_Flux/static/AfacadFlux-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Afacad_Flux/static/AfacadFlux-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Afacad_Flux/static/AfacadFlux-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Afacad_Flux/static/AfacadFlux-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Afacad_Flux/static/AfacadFlux-Bold.ttf
+          weight: 900
+
   assets:
+    - .env
     - assets/svg/
+    - assets/png/

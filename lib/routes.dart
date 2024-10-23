@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_one/base.dart';
-import 'package:health_one/login.dart';
+import 'package:health_one/dashboard/base.dart';
+import 'package:health_one/login/login.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
   '/': (context) {

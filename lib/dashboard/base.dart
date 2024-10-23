@@ -4,7 +4,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:health_one/identifySIckness.dart';
+import 'package:health_one/dashboard/diagnose/widget/identifySickness.dart';
+import 'package:health_one/dashboard/exercise/widget/exercise.dart';
 
 class Base extends StatefulWidget {
   final int? homeCurrentIndex;
@@ -24,6 +25,7 @@ class _MyBase extends State<Base> {
   int baseCurrentIndex = 0;
   late CameraController _controller;
   Future<void>? _initializeControllerFuture;
+  bool isBottomBarVisible = true;
 
   late Future? myFuture;
 
@@ -34,47 +36,24 @@ class _MyBase extends State<Base> {
     } else {
       _homeCurrentIndex = 0;
     }
-
-    // if (widget.camera != null) {
-    //   _controller = CameraController(
-    //     widget.camera!,
-    //     ResolutionPreset.medium,
-    //   );
-
-    //   _initializeControllerFuture = _controller.initialize();
-    // }
-
     myFuture = firstLoad();
     super.initState();
   }
 
   void setBaseCurrentIndex(BuildContext context, int value) async {
-    // if (value == 2) {
-    //   // await _initializeControllerFuture;
-
-    //   // final image = await _controller.takePicture();
-
-    //   // if (!context.mounted) return;
-
-    //   // setState(() {
-    //   //   baseCurrentIndex = value;
-    //   // });
-
-    //   // await Navigator.of(context).push(
-    //   //   MaterialPageRoute(
-    //   //     builder: (context) => DisplayPictureScreen(
-    //   //       imagePath: image.path,
-    //   //     ),
-    //   //   ),
-    //   // );
-    // } else {
-    //   setState(() {
-    //     baseCurrentIndex = value;
-    //   });
-    // }
-
+    if (value == 1) {
+      setIsBottomBarVisible(false);
+    } else {
+      setIsBottomBarVisible(true);
+    }
     setState(() {
       baseCurrentIndex = value;
+    });
+  }
+
+  void setIsBottomBarVisible(bool value) {
+    setState(() {
+      isBottomBarVisible = value;
     });
   }
 
@@ -122,58 +101,39 @@ class _MyBase extends State<Base> {
                   ),
                 ],
               ),
-              Container(),
-              IdentifySickness(),
-              Container(),
-              Container()
+              IdentifySicknessPage(setBaseCurrentIndex),
+              const ExercisePage()
             ],
           );
         },
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          canvasColor: Colors.white,
+      bottomNavigationBar: Visibility(
+        visible: isBottomBarVisible,
+        maintainAnimation: true,
+        maintainState: true,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            canvasColor: Color(0xff101935),
+          ),
+          child: BottomNavigationBar(
+              currentIndex: baseCurrentIndex,
+              onTap: (value) {
+                setBaseCurrentIndex(context, value);
+              },
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Color(0xffF6921E),
+              unselectedItemColor: Color(0xffF2FDFF),
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.accessibility_new_rounded), label: "You"),
+                BottomNavigationBarItem(icon: Icon(Icons.medical_services_rounded), label: "Diagnose"),
+                BottomNavigationBarItem(icon: Icon(Icons.sports_gymnastics_rounded), label: "Exercise"),
+              ]),
         ),
-        child: BottomNavigationBar(
-            currentIndex: baseCurrentIndex,
-            onTap: (value) {
-              setBaseCurrentIndex(context, value);
-            },
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Color(0xffF6921E),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: <BottomNavigationBarItem>[
-              const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Container(
-                      height: 45,
-                      width: 45,
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              transform: GradientRotation(0.5),
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                Color(0xff0E3871),
-                                Color(0xff0E3871),
-                                Color(0xff4F66AC),
-                              ],
-                              stops: [
-                                0.1,
-                                0.3,
-                                1,
-                              ]),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: const Padding(padding: EdgeInsets.all(14), child: Icon(Icons.add))),
-                  label: "Home"),
-              const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            ]),
       ),
     );
   }
