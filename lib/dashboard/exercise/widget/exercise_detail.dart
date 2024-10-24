@@ -97,7 +97,7 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
                                         image: const DecorationImage(
                                             fit: BoxFit.cover,
                                             image: AssetImage(
-                                              "assets/png/astrid jumps.gif",
+                                              "assets/gif/astrid jumps.gif",
                                             ))),
                                   ),
                                 ],

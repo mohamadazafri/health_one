@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_one/dashboard/diagnose/gpt.dart';
 import 'package:health_one/dashboard/diagnose/widget/identifySickness.dart';
 import 'package:uuid/uuid.dart';
@@ -91,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Column(
         children: [
           Container(
-            color: Colors.white,
+            color: Color(0xffF2F1F3),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
@@ -103,18 +104,35 @@ class _ChatPageState extends State<ChatPage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xffDBCBD8),
+                        color: Color(0xffFFC49B),
                         borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff1d1c21).withOpacity(1),
+                            offset: Offset(3, 3),
+                            blurRadius: 0,
+                            spreadRadius: 1,
+                          ),
+                        ],
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
-                              children: [],
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.remove_red_eye,
+                                  color: Color(0xff1d1c21),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text("by OpenAI")
+                              ],
                             ),
-                            const Text('Visual Diagnose', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                            const Text('Visual Diagnose', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),
                           ],
                         ),
                       ),
@@ -122,18 +140,36 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Color(0xff9AD4D6),
+                      color: Color(0xffFFEFD3),
                       borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xff1d1c21).withOpacity(1),
+                          offset: Offset(3, 3),
+                          blurRadius: 0,
+                          spreadRadius: 1,
+                        ),
+                      ],
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Row(
-                            children: [],
+                          Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.solidHospital,
+                                color: Color(0xff1d1c21),
+                                size: 20,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text("by Google")
+                            ],
                           ),
-                          const Text('Nearby Hospital', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                          const Text('Nearby Hospital', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -144,6 +180,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Expanded(
             child: Chat(
+              theme: const DefaultChatTheme(backgroundColor: Color(0xffF2F1F3), primaryColor: Color(0xffFFC670), secondaryColor: Color(0xffFFFBF5)),
               messages: _messages,
               // onAttachmentPressed: _handleAttachmentPressed,
               // onMessageTap: _handleMessageTap,

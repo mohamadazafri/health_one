@@ -24,6 +24,7 @@ dependencies:
   dynamic_tabbar: ^1.0.8
   flutter_chat_ui: ^1.6.15
   uuid: ^4.5.1
+  glassmorphism: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -54,3 +55,4 @@ flutter:
     - .env
     - assets/svg/
     - assets/png/
+    - assets/gif/

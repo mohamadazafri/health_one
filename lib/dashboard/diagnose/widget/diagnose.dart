@@ -41,64 +41,58 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   diagnoseResult = jsonDecode(gptResponse!["choices"][0]["message"]["content"]);
                 }
               }
-              return Container(
-                // color: Color(0xffF2FDFF),
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [Color(0xffdbcbd8), Color(0xfff2fdff)],
-                  stops: [0, 0.9],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: Color(0xff101935),
-                          gradient: LinearGradient(
-                            colors: [Colors.transparent, Color(0xff101935)],
-                            stops: [0, 0.1],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          )),
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xffF2FDFF),
-                              ),
+              return Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xffF2F1F3),
+                    ),
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_rounded,
+                              color: Color(0xff001B2E),
+                              size: 30,
                             ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            const Text(
-                              "Diagnose result",
-                              style: TextStyle(color: Color(0xffF2FDFF), fontSize: 16),
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Text(
+                            "Diagnose result",
+                            style: const TextStyle(fontSize: 30, color: Color(0xff001B2E), fontWeight: FontWeight.w700),
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Color(0xffF2F1F3),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0, left: 30, right: 30),
                         child: Column(
                           children: [
                             Container(
-                              decoration: BoxDecoration(boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFF9a9a9a).withOpacity(1),
-                                  offset: Offset(7, 5),
-                                  blurRadius: 19,
-                                  spreadRadius: -3,
-                                ),
-                              ]),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0xff1d1c21).withOpacity(1),
+                                    offset: Offset(3, 3),
+                                    blurRadius: 0,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                              ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.file(
@@ -177,8 +171,8 @@ class _DiagnosePageState extends State<DiagnosePage> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             }),
       ),

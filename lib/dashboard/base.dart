@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:health_one/dashboard/diagnose/widget/chat.dart';
 import 'package:health_one/dashboard/diagnose/widget/identifySickness.dart';
@@ -66,48 +67,47 @@ class _MyBase extends State<Base> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF4F6F8),
-      body: FutureBuilder(
-        future: myFuture,
-        builder: (context, snapshot) {
-          Map<String, String> _storage_data;
-          dynamic user_detail;
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(statusBarColor: Color(0xffF2F1F3)),
+        child: FutureBuilder(
+          future: myFuture,
+          builder: (context, snapshot) {
+            Map<String, String> _storage_data;
+            dynamic user_detail;
 
-          return IndexedStack(
-            index: baseCurrentIndex,
-            children: [
-              Column(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xff101935),
-                    ),
-                    width: double.infinity,
-                    height: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 30,
-                        right: 30,
-                        top: 30,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            user_detail == null ? "Hi" : "Hi, ${user_detail['first_name']}",
-                            style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700),
+            return IndexedStack(
+              index: baseCurrentIndex,
+              children: [
+                SafeArea(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xffF2F1F3),
+                        ),
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            user_detail == null ? "Hola John Doe!" : "Hola, ${user_detail['first_name']}!",
+                            style: const TextStyle(fontSize: 30, color: Color(0xff001B2E), fontWeight: FontWeight.w700),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Expanded(
+                          child: Container(
+                        color: Color(0xffF2F1F3),
+                      ))
+                    ],
                   ),
-                ],
-              ),
-              // IdentifySicknessPage(setBaseCurrentIndex),
-              const ChatPage(),
-              const ExercisePage()
-            ],
-          );
-        },
+                ),
+                // IdentifySicknessPage(setBaseCurrentIndex),
+                const ChatPage(),
+                const ExercisePage()
+              ],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: Visibility(
         visible: isBottomBarVisible,
@@ -118,7 +118,7 @@ class _MyBase extends State<Base> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
-            canvasColor: Color(0xff101935),
+            canvasColor: Color(0xff1d1c21),
           ),
           child: BottomNavigationBar(
               currentIndex: baseCurrentIndex,
@@ -126,7 +126,7 @@ class _MyBase extends State<Base> {
                 setBaseCurrentIndex(context, value);
               },
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: Color(0xffF6921E),
+              selectedItemColor: Color(0xffFFC49B),
               unselectedItemColor: Color(0xffF2FDFF),
               showSelectedLabels: true,
               showUnselectedLabels: true,
