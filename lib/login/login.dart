@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
   bool login() {
     bool success;
 
-    if (emailController.text == "admin" && passwordController.text == "admin") {
+    if (emailController.text == "" && passwordController.text == "") {
       success = true;
     } else {
       success = false;

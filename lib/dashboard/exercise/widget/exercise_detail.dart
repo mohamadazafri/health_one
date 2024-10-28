@@ -76,32 +76,6 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 32),
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xFF9a9a9a).withOpacity(1),
-                                            offset: Offset(7, 5),
-                                            blurRadius: 19,
-                                            spreadRadius: -3,
-                                          ),
-                                        ],
-                                        image: const DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                              "assets/gif/astrid jumps.gif",
-                                            ))),
-                                  ),
-                                ],
-                              ),
                               Expanded(
                                 child: SingleChildScrollView(
                                   child: Column(

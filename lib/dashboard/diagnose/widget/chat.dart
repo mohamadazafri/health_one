@@ -88,110 +88,88 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            color: Color(0xffF2F1F3),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => IdentifySicknessPage()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffFFC49B),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff1d1c21).withOpacity(1),
-                            offset: Offset(3, 3),
-                            blurRadius: 0,
-                            spreadRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.remove_red_eye,
-                                  color: Color(0xff1d1c21),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text("by OpenAI")
-                              ],
-                            ),
-                            const Text('Visual Diagnose', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),
-                          ],
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              decoration:
+                  const BoxDecoration(border: Border(bottom: BorderSide(color: Color.fromARGB(122, 29, 28, 33), width: 1)), color: Color(0xffF2F1F3)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        "Tell us your concern",
+                        style: TextStyle(fontSize: 30, color: Color(0xff001B2E), fontWeight: FontWeight.w700),
+                        overflow: TextOverflow.clip,
                       ),
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffFFEFD3),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xff1d1c21).withOpacity(1),
-                          offset: Offset(3, 3),
-                          blurRadius: 0,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.solidHospital,
-                                color: Color(0xff1d1c21),
-                                size: 20,
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => IdentifySicknessPage()));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xffFFC49B),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xff1d1c21).withOpacity(1),
+                                offset: Offset(3, 3),
+                                blurRadius: 0,
+                                spreadRadius: 1,
                               ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text("by Google")
                             ],
                           ),
-                          const Text('Nearby Hospital', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),
-                        ],
+                          child: const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.remove_red_eye,
+                                      color: Color(0xff1d1c21),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text("by OpenAI")
+                                  ],
+                                ),
+                                const Text('Vision Diagnose', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Chat(
-              theme: const DefaultChatTheme(backgroundColor: Color(0xffF2F1F3), primaryColor: Color(0xffFFC670), secondaryColor: Color(0xffFFFBF5)),
-              messages: _messages,
-              // onAttachmentPressed: _handleAttachmentPressed,
-              // onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              showUserAvatars: true,
-              showUserNames: true,
-              user: _user,
+            Expanded(
+              child: Chat(
+                theme: const DefaultChatTheme(backgroundColor: Color(0xffF2F1F3), primaryColor: Color(0xffFFC670), secondaryColor: Color(0xffFFFBF5)),
+                messages: _messages,
+                // onAttachmentPressed: _handleAttachmentPressed,
+                // onMessageTap: _handleMessageTap,
+                onPreviewDataFetched: _handlePreviewDataFetched,
+                onSendPressed: _handleSendPressed,
+                showUserAvatars: true,
+                showUserNames: true,
+                user: _user,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

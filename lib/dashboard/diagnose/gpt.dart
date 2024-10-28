@@ -115,7 +115,6 @@ Future<Map<String, dynamic>> chatGPT4Model(List messageHistory) async {
   Uri url = Uri.parse("https://api.openai.com/v1/chat/completions");
   String apiAccessToken = dotenv.env["OPENAI_API_KEY"]!;
 
-  // try {
   final response = await http.post(
     url,
     headers: <String, String>{
@@ -127,15 +126,6 @@ Future<Map<String, dynamic>> chatGPT4Model(List messageHistory) async {
       'messages': [
         {'role': 'system', 'content': chatSystemPrompt},
         ...messageHistory
-        // {
-        //   'role': 'user',
-        //   'content': [
-        //     {
-        //       'type': 'text',
-        //       'text': userMessage,
-        //     },
-        //   ],
-        // },
       ],
       'max_tokens': 2000,
     }),
