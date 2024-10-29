@@ -45,9 +45,9 @@ There are 2 ways to run the code, either using emulator or real device
 
 Then you can run the code
 
-1. Open VS Code then open the 'nsi-apps' folder
+1. Open VS Code then open the 'health_one' folder
 2. Select device you have chosen previously (normally VS Code will automatically detect the device)
-3. Open nsi_apps\lib\main.dart file
+3. Open health_one\lib\main.dart file
 4. Press 'Run' on top of main() function
 
 #### Using real device
