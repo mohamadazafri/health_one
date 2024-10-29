@@ -141,7 +141,7 @@ class _ChatPageState extends State<ChatPage> {
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text("by OpenAI")
+                                    Text("by AI Doctor")
                                   ],
                                 ),
                                 const Text('Vision Diagnose', style: TextStyle(fontSize: 20, color: Color(0xff1d1c21), fontWeight: FontWeight.w500)),

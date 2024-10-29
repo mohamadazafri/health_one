@@ -117,7 +117,7 @@ class _ExercisePageState extends State<ExercisePage> {
                                   children: [
                                     Text("Generate Your Own Workout Plan",
                                         style: TextStyle(fontSize: 38, color: Colors.white, fontWeight: FontWeight.w700)),
-                                    Text("by OpenAI", style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500)),
+                                    Text("by AI Trainer", style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500)),
                                   ],
                                 ),
                               ),
@@ -197,14 +197,14 @@ class _ExercisePageState extends State<ExercisePage> {
                                 : Column(
                                     children: List.generate(5, (index) {
                                       return Padding(
-                                        padding: const EdgeInsets.all(0),
+                                        padding: const EdgeInsets.all(020),
                                         child: Container(
                                           width: double.infinity,
                                           height: 200,
                                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                                           child: Shimmer.fromColors(
                                             baseColor: Color(0xffFFEFD3),
-                                            highlightColor: Color(0xffFFC49B),
+                                            highlightColor: Color(0xffFFC49B).withOpacity(0.2),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,

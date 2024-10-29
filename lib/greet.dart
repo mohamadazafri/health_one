@@ -6,6 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_one/global.dart';
 import 'package:health_one/storage.dart';
 
+// This page will only been shown to first time user
+// This page will appear if SecureStorage don't have any "name" key
+
 class GreetPage extends StatefulWidget {
   const GreetPage({super.key});
 
@@ -22,12 +25,6 @@ class _GreetPageState extends State<GreetPage> {
   String? errorMessage;
   bool _nameFieldFill = false;
 
-  void toggle_vis_password() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
   void invalid_login_dialog() {
     setState(() {
       _invalidDialog = !_invalidDialog;
@@ -37,7 +34,6 @@ class _GreetPageState extends State<GreetPage> {
   void error_login_dialog(String response) {
     setState(() {
       _errorDialog = !_errorDialog;
-      errorMessage = response;
     });
   }
 
@@ -56,17 +52,39 @@ class _GreetPageState extends State<GreetPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Health One",
-                  style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffDBCBD8), fontSize: 24, fontWeight: FontWeight.w600),
-                ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 12),
-                  child: const Text(
-                    "What is your name",
-                    style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffDBCBD8), fontSize: 18),
+                  margin: const EdgeInsets.only(bottom: 40),
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Welcome to ",
+                        style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffffc49b), fontSize: 24, fontWeight: FontWeight.w400),
+                      ),
+                      const Text(
+                        "Health One",
+                        style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffffc49b), fontSize: 32, fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                 ),
+                Container(
+                  margin: EdgeInsets.only(bottom: _errorDialog ? 0 : 14),
+                  child: const Text(
+                    "What is your name?",
+                    style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffffefd3), fontSize: 18),
+                  ),
+                ),
+                _errorDialog
+                    ? Container(
+                        margin: EdgeInsets.only(bottom: 14),
+                        child: const Text(
+                          "Please enter your name?",
+                          style: TextStyle(fontFamily: "ABeeZee", color: Color.fromARGB(255, 248, 124, 93), fontSize: 12),
+                        ),
+                      )
+                    : Container(),
                 Container(
                   margin: const EdgeInsets.only(bottom: 32),
                   child: Theme(
@@ -84,8 +102,7 @@ class _GreetPageState extends State<GreetPage> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        // hintText: 'John',
-
+                        hintText: 'John Doe',
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xffF2FDFF)),
                           borderRadius: BorderRadius.circular(12),
@@ -106,10 +123,12 @@ class _GreetPageState extends State<GreetPage> {
                       style: ButtonStyle(
                           backgroundColor: (_nameFieldFill) ? WidgetStatePropertyAll(Color(0xff9AD4D6)) : WidgetStatePropertyAll(Color(0xffF5F6F8)),
                           foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                      onPressed: () async {
-                        await SecureStorage.writeStorage("name", nameController.text);
-                        Navigator.of(context).pushNamed('/', arguments: {"homeCurrentIndex": 0, "camera": GlobalValue().getCameras()});
-                      },
+                      onPressed: nameController.text != ""
+                          ? () async {
+                              await SecureStorage.writeStorage("name", nameController.text);
+                              Navigator.of(context).pushNamed('/', arguments: {"homeCurrentIndex": 0, "camera": GlobalValue().getCameras()});
+                            }
+                          : () {},
                       child: Text(
                         "Continue",
                         style: TextStyle(color: (_nameFieldFill) ? Color(0xff101935) : Color(0xff9AD4D6)),
@@ -122,15 +141,4 @@ class _GreetPageState extends State<GreetPage> {
       ),
     );
   }
-
-  // bool login() {
-  //   bool success;
-
-  //   if (emailController.text == "" && passwordController.text == "") {
-  //     success = true;
-  //   } else {
-  //     success = false;
-  //   }
-  //   return success;
-  // }
 }
