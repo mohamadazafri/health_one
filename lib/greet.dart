@@ -19,21 +19,26 @@ class GreetPage extends StatefulWidget {
 class _GreetPageState extends State<GreetPage> {
   final TextEditingController nameController = TextEditingController();
 
-  bool _obscureText = true;
   bool _invalidDialog = false;
   bool _errorDialog = false;
   String? errorMessage;
   bool _nameFieldFill = false;
 
-  void invalid_login_dialog() {
+  void showErrorDialog(bool value) {
     setState(() {
-      _invalidDialog = !_invalidDialog;
+      _invalidDialog = value;
     });
   }
 
-  void error_login_dialog(String response) {
+  void setErrorLoginDialog(bool value) {
     setState(() {
-      _errorDialog = !_errorDialog;
+      _errorDialog = value;
+    });
+  }
+
+  void setNameFieldFill(bool value) {
+    setState(() {
+      _nameFieldFill = value;
     });
   }
 
@@ -76,7 +81,7 @@ class _GreetPageState extends State<GreetPage> {
                     style: TextStyle(fontFamily: "ABeeZee", color: Color(0xffffefd3), fontSize: 18),
                   ),
                 ),
-                _errorDialog
+                _invalidDialog
                     ? Container(
                         margin: EdgeInsets.only(bottom: 14),
                         child: const Text(
@@ -94,8 +99,14 @@ class _GreetPageState extends State<GreetPage> {
                       onTapOutside: (event) {
                         FocusManager.instance.primaryFocus?.unfocus();
                       },
-                      onChanged: (value) => {
-                        if (value.isNotEmpty) {setState(() => _nameFieldFill = true)} else {setState(() => _nameFieldFill = false)}
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          setNameFieldFill(true);
+                          setErrorLoginDialog(true);
+                        } else {
+                          setNameFieldFill(false);
+                          setErrorLoginDialog(false);
+                        }
                       },
                       autofocus: false,
                       style: TextStyle(color: Color(0xff101935)),
@@ -121,17 +132,24 @@ class _GreetPageState extends State<GreetPage> {
                     height: 52,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor: (_nameFieldFill) ? WidgetStatePropertyAll(Color(0xff9AD4D6)) : WidgetStatePropertyAll(Color(0xffF5F6F8)),
-                          foregroundColor: WidgetStatePropertyAll(Colors.black)),
+                          backgroundColor:
+                              (_nameFieldFill) ? const WidgetStatePropertyAll(Color(0xff9AD4D6)) : const WidgetStatePropertyAll(Color(0xffF5F6F8)),
+                          foregroundColor: const WidgetStatePropertyAll(Colors.black)),
                       onPressed: nameController.text != ""
                           ? () async {
                               await SecureStorage.writeStorage("name", nameController.text);
                               Navigator.of(context).pushNamed('/', arguments: {"homeCurrentIndex": 0, "camera": GlobalValue().getCameras()});
                             }
-                          : () {},
+                          : () {
+                              if (_errorDialog) {
+                                showErrorDialog(true);
+                              } else {
+                                showErrorDialog(false);
+                              }
+                            },
                       child: Text(
                         "Continue",
-                        style: TextStyle(color: (_nameFieldFill) ? Color(0xff101935) : Color(0xff9AD4D6)),
+                        style: TextStyle(color: (_nameFieldFill) ? Color(0xff101935) : Color(0xffadb6c4)),
                       ),
                     )),
               ],
