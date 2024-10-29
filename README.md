@@ -71,12 +71,12 @@ https://docs.flutter.dev/get-started/install/windows
 1. Create file name '.env' in the project root folder
 2. In the file, you must initialize 2 variables, OPENAI_API_KEY and RAPID_API_KEY
 
-Example of '.env' file content format:
-OPENAI_API_KEY=[Your OpenAI API key]
+Example of '.env' file content format:<br />
+OPENAI_API_KEY=[Your OpenAI API key]<br />
 RAPID_API_KEY=[Your Rapid API key]
 
 ### Reference
 
-Please refer to this link on how to get OpenAI API and Rapid API key
-OpenAI API: https://platform.openai.com/docs/quickstart
+Please refer to this link on how to get OpenAI API and Rapid API key<br />
+OpenAI API: https://platform.openai.com/docs/quickstart<br />
 Rapid API: https://docs.rapidapi.com/docs/keys-and-key-rotation
