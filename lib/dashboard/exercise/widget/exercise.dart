@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:health_one/dashboard/exercise/api/exercise_api.dart';
 import 'package:health_one/dashboard/exercise/widget/exercise_detail.dart';
 import 'package:health_one/dashboard/exercise/widget/workoutPlanForm.dart';
 import 'package:shimmer/shimmer.dart';
+
+// This file contains a widget to show the button to generate workout plan using AI and a list of exercise user can discover
+// In this page, user can discover new exercise
 
 class ExercisePage extends StatefulWidget {
   const ExercisePage({super.key});
@@ -21,14 +23,11 @@ class _ExercisePageState extends State<ExercisePage> {
     {"name": "cardio", "detail": null},
     {"name": "chest", "detail": null},
     {"name": "waist", "detail": null},
-    // {"name": "shoulder", "detail": null},
     {"name": "back", "detail": null},
   ];
 
   @override
   void initState() {
-    // TODO: implement initState
-
     myFuture = firstLoad();
     super.initState();
   }
@@ -43,10 +42,10 @@ class _ExercisePageState extends State<ExercisePage> {
               return const Text("Something went wrong. Please try again next time");
             } else if (snapshot.hasData) {
               if (snapshot.data! == false) {
-                // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Login()), (Route<dynamic> route) => false);
                 return const Text("Something went wrong. Please try again next time");
               } else {
                 if (data == null) {
+                  // Assigning the data that we obtain from 'myFuture'
                   data = snapshot.data! as Map;
 
                   data.forEach((key, value) {
@@ -106,7 +105,7 @@ class _ExercisePageState extends State<ExercisePage> {
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: AssetImage("assets/png/workout8.jpg"),
+                                  image: const AssetImage("assets/png/workout8.jpg"),
                                   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken),
                                 ),
                               ),
@@ -184,7 +183,7 @@ class _ExercisePageState extends State<ExercisePage> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(exerciseDetail[index]["name"],
-                                                    style: TextStyle(fontSize: 38, color: Colors.white, fontWeight: FontWeight.w700)),
+                                                    style: const TextStyle(fontSize: 38, color: Colors.white, fontWeight: FontWeight.w700)),
                                                 Text(data != null ? '${exerciseDetail[index]["detail"].length} Exercises' : "Loading...",
                                                     style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w500)),
                                               ],
@@ -236,20 +235,14 @@ class _ExercisePageState extends State<ExercisePage> {
         });
   }
 
+  // This will be the first function that will be called when this page loads
   Future<dynamic> firstLoad() async {
     dynamic cardioWorkout = await getWorkout("cardio");
     dynamic chestWorkout = await getWorkout("chest");
     dynamic waistWorkout = await getWorkout("waist");
-    // dynamic shouldersWorkout = await getWorkout("shoulders");
     dynamic backWorkout = await getWorkout("back");
 
-    Map<String, dynamic> response = {
-      "cardio": cardioWorkout,
-      "chest": chestWorkout,
-      "waist": waistWorkout,
-      // "shoulders": shouldersWorkout,
-      "back": backWorkout
-    };
+    Map<String, dynamic> response = {"cardio": cardioWorkout, "chest": chestWorkout, "waist": waistWorkout, "back": backWorkout};
     return response;
   }
 }

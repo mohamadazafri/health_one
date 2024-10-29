@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+// Function to generate prompt based on user requirement when they fill up the form
 String generatePrompt(
   String level,
   String goal,
@@ -78,6 +79,7 @@ Please make sure the JSON can be decode by Dart language. Do not mention 'json' 
 """;
 }
 
+// Function to make a HTTP POST request to OpenAPI server to get response from OpenAPI server to generate workout plan
 Future<Map<String, dynamic>> generateWorkoutPlanGPT4Model(
   String level,
   String goal,

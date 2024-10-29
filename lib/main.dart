@@ -3,7 +3,6 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:health_one/global.dart';
-import 'package:health_one/login/login.dart';
 import 'package:health_one/routes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:health_one/storage.dart';

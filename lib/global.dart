@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 
+// This class work as a center to store all global value that can be used across all file in this project
 class GlobalValue {
   static final global = GlobalValue();
 
@@ -21,8 +22,4 @@ class GlobalValue {
   CameraDescription? getCameras() {
     return global.cameras;
   }
-
-  // void setCameraLensDirection(CameraDescription value) {
-  //   global.cameras!.lensDirection = CameraLensDirection.front;
-  // }
 }

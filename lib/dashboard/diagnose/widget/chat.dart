@@ -6,6 +6,9 @@ import 'package:health_one/dashboard/diagnose/gpt.dart';
 import 'package:health_one/dashboard/diagnose/widget/identifySickness.dart';
 import 'package:uuid/uuid.dart';
 
+// This file contains a widget to ilustrate the chat and vision diagnose button that will lead to IdentifySicknessPage()
+// In this page, user are allowed to communicate with GPT 4o regarding their health concern
+
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
@@ -15,22 +18,23 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
+
+  // User will have a unique id 8000. It will become the sender
   final _user = const types.User(
-    // id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
     id: '8000',
   );
 
+  // GPT system will have a unique id 8001. It will become the responder
   final gpt = const types.User(
-    // id: '82091008-a484-4a89-ae75-a22bf8d6f3a7',
     id: '8001',
   );
 
   @override
   void initState() {
     super.initState();
-    // _loadMessages();
   }
 
+  // Function to add message into '_message' List
   void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
@@ -51,6 +55,7 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  // Function to handle when user press the send button
   void _handleSendPressed(types.PartialText message) async {
     final textMessage = types.TextMessage(
       author: _user,
@@ -100,7 +105,7 @@ class _ChatPageState extends State<ChatPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         "Tell us your concern",
@@ -159,8 +164,6 @@ class _ChatPageState extends State<ChatPage> {
               child: Chat(
                 theme: const DefaultChatTheme(backgroundColor: Color(0xffF2F1F3), primaryColor: Color(0xffFFC670), secondaryColor: Color(0xffFFFBF5)),
                 messages: _messages,
-                // onAttachmentPressed: _handleAttachmentPressed,
-                // onMessageTap: _handleMessageTap,
                 onPreviewDataFetched: _handlePreviewDataFetched,
                 onSendPressed: _handleSendPressed,
                 showUserAvatars: true,

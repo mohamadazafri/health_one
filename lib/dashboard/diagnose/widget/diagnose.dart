@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:health_one/dashboard/diagnose/gpt.dart';
 import 'package:health_one/storage.dart';
+
+// This file contains a widget to show the respond from GPT 4o regarding the picture that user just captured
+// In this page, user get to know about their skin condition in detail
+// User can save the detail for future reference
 
 class DiagnosePage extends StatefulWidget {
   final String imagePath;
@@ -29,6 +34,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
     widgetFuture = firstLoad();
   }
 
+  // Function to set whether the diagnose result has been saved or not
   void setResultSaved() {
     setState(() {
       resultSaved = !resultSaved;
@@ -44,8 +50,13 @@ class _DiagnosePageState extends State<DiagnosePage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
+                  String apiAccessToken = dotenv.env["OPENAI_API_KEY"]!;
                   return Container(
-                    child: Text("Error"),
+                    child: const Column(
+                      children: [
+                        Text("Error"),
+                      ],
+                    ),
                   );
                 } else if (snapshot.hasData) {
                   gptResponse = snapshot.data;
@@ -161,7 +172,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
                                           ),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(bottom: 20),
+                                          margin: const EdgeInsets.only(bottom: 20),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -190,14 +201,14 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   widget.diagnoseDetail == null
                       ? Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                             color: Color(0xffF2F1F3),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0xffB3BAC3).withOpacity(0.25),
+                                color: const Color(0xffB3BAC3).withOpacity(0.25),
                                 spreadRadius: 0,
                                 blurRadius: 4,
-                                offset: Offset(0, -4),
+                                offset: const Offset(0, -4),
                               ),
                             ],
                           ),
@@ -258,7 +269,8 @@ class _DiagnosePageState extends State<DiagnosePage> {
                                         shape: WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20),
                                         )),
-                                        backgroundColor: WidgetStatePropertyAll(resultSaved ? Color.fromARGB(255, 19, 35, 44) : Color(0xff294C60)),
+                                        backgroundColor:
+                                            WidgetStatePropertyAll(resultSaved ? const Color.fromARGB(255, 19, 35, 44) : const Color(0xff294C60)),
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(vertical: 14),
@@ -283,13 +295,13 @@ class _DiagnosePageState extends State<DiagnosePage> {
                                                           "Back to chat",
                                                           style: TextStyle(
                                                               fontWeight: FontWeight.w600,
-                                                              color: validToSave ? Color(0xffF2F1F3) : Color.fromARGB(117, 0, 27, 46)),
+                                                              color: validToSave ? const Color(0xffF2F1F3) : const Color.fromARGB(117, 0, 27, 46)),
                                                         )
                                                       : Text(
                                                           "Save this result",
                                                           style: TextStyle(
                                                               fontWeight: FontWeight.w600,
-                                                              color: validToSave ? Color(0xffF2F1F3) : Color.fromARGB(117, 0, 27, 46)),
+                                                              color: validToSave ? const Color(0xffF2F1F3) : const Color.fromARGB(117, 0, 27, 46)),
                                                         )
                                                 ],
                                               ),
@@ -308,6 +320,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
     );
   }
 
+  // This will be the first function that will be called when this page loads
   Future firstLoad() async {
     if (widget.diagnoseDetail != null) {
       return widget.diagnoseDetail;

@@ -9,8 +9,8 @@ import 'package:health_one/dashboard/exercise/widget/exercise_history.dart';
 import 'package:health_one/dashboard/exercise/widget/generatedWorkoutPlan.dart';
 import 'package:health_one/dashboard/exercise/widget/workoutPlanForm.dart';
 import 'package:health_one/greet.dart';
-import 'package:health_one/login/login.dart';
 
+// This file contains all routes to each page
 Map<String, Widget Function(BuildContext)> routes = {
   '/': (context) {
     Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
@@ -19,7 +19,6 @@ Map<String, Widget Function(BuildContext)> routes = {
       camera: args?["camera"],
     );
   },
-  '/login': (context) => const LoginPage(),
   '/greet': (context) => const GreetPage(),
 
   // Routes for Diagnose

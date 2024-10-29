@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:health_one/dashboard/exercise/widget/generatedWorkoutPlan.dart';
 import 'package:health_one/storage.dart';
 
+// This file contains a widget to list down all generate workout plan history that user saved
+// In this page, user get to preview back their workout plan
+
 class ExerciseHistoryPage extends StatefulWidget {
   const ExerciseHistoryPage({super.key});
 
@@ -155,10 +158,8 @@ class _ExerciseHistoryPageState extends State<ExerciseHistoryPage> {
                             ),
                           ),
                         ))
-                      : Container(
-                          child: Center(
-                            child: Text("Loading..."),
-                          ),
+                      : const Center(
+                          child: Text("Loading..."),
                         )
                 ],
               );

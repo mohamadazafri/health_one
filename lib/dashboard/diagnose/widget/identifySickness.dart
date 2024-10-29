@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,8 +7,11 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:health_one/dashboard/diagnose/widget/diagnose.dart';
 import 'package:health_one/global.dart';
 
+// This file contains a widget to run a camera on user device
+// In this page, user are allowed to capture anything that their concern about expecially on their skin.
+// Right after capturing the picture, it will lead user to DiagnosePage()
+
 class IdentifySicknessPage extends StatefulWidget {
-  // final Function setBaseCurrentIndex;
   const IdentifySicknessPage({
     super.key,
   });
@@ -30,23 +30,27 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
 
   @override
   void initState() {
+    // We will get a list of Camera Description from GlobalValue that we assign on 'main' function in 'main.dart'
     listCamera = GlobalValue().getListCamera();
+
+    // We will initialize one of the Camera Description so then user can use it
     _controller = CameraController(
       listCamera.first,
       ResolutionPreset.medium,
     );
-
     _initializeControllerFuture = _controller.initialize();
 
     super.initState();
   }
 
+  // We will dispose _controller after we are not using this widget anymore
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+  // Function for user to change the lens direction, either use the front camera or back camera
   void _toggleCameraLens() {
     setState(() {
       final lensDirection = _controller.description.lensDirection;
@@ -68,18 +72,6 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
 
   @override
   Widget build(BuildContext context) {
-    // // fetch screen size
-    // final size = MediaQuery.of(context).size;
-
-    // // calculate scale depending on screen and camera ratios
-    // // this is actually size.aspectRatio / (1 / camera.aspectRatio)
-    // // because camera preview size is received as landscape
-    // // but we're calculating for portrait orientation
-
-    // double scale = size.aspectRatio * _controller.value.aspectRatio;
-
-    // // to prevent scaling down, invert the value
-    // if (scale < 1) scale = 1 / scale;
     return SafeArea(
       child: AnnotatedRegion(
         value: const SystemUiOverlayStyle(
@@ -112,7 +104,7 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                             Container(
                               decoration: const BoxDecoration(color: Colors.transparent),
                               child: Padding(
-                                padding: EdgeInsets.all(20.0),
+                                padding: const EdgeInsets.all(20.0),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -159,8 +151,8 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color(0xFFffffff).withOpacity(0.5),
-                                    Color((0xFFFFFFFF)).withOpacity(0.5),
+                                    const Color(0xFFffffff).withOpacity(0.5),
+                                    const Color((0xFFFFFFFF)).withOpacity(0.5),
                                   ],
                                 ),
                                 child: Padding(
@@ -205,7 +197,6 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                                       InkWell(
                                         onTap: () {
                                           _toggleCameraLens();
-                                          // _initializeControllerFuture = _controller.initialize();
                                         },
                                         child: Icon(
                                           _isRearCameraSelected ? CupertinoIcons.switch_camera : CupertinoIcons.switch_camera_solid,
@@ -234,6 +225,7 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
     );
   }
 
+  // This will be the first function that will be called when this page loads
   Future<void>? firstLoad() async {
     return await _initializeControllerFuture;
   }

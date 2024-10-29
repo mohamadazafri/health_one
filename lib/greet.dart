@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:health_one/global.dart';
 import 'package:health_one/storage.dart';
 
@@ -24,6 +23,7 @@ class _GreetPageState extends State<GreetPage> {
   String? errorMessage;
   bool _nameFieldFill = false;
 
+  // Function to use when user not entered their name and we want to show warning
   void showErrorDialog(bool value) {
     setState(() {
       _invalidDialog = value;
@@ -36,6 +36,7 @@ class _GreetPageState extends State<GreetPage> {
     });
   }
 
+  // Function to use when TextField for filling up user name is changing
   void setNameFieldFill(bool value) {
     setState(() {
       _nameFieldFill = value;

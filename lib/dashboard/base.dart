@@ -14,6 +14,9 @@ import 'package:health_one/dashboard/exercise/widget/exercise.dart';
 import 'package:health_one/dashboard/exercise/widget/generatedWorkoutPlan.dart';
 import 'package:health_one/storage.dart';
 
+// This file contains a widget to ilustrate the dashboard and other navigation bar
+// It has 2 other subwidget which is ChatPage() for 'Diagnose' tab and ExercisePage() for 'Exercise' tab
+
 class Base extends StatefulWidget {
   final int? homeCurrentIndex;
   final CameraDescription? camera;
@@ -38,6 +41,7 @@ class _MyBase extends State<Base> {
 
   @override
   void initState() {
+    // If widget.homeCurrentIndex is null or 0, we will bring it to the first widget in IndexedStack which is the page for 'You' tab
     if (widget.homeCurrentIndex != null || widget.homeCurrentIndex == 0) {
       _homeCurrentIndex = widget.homeCurrentIndex!;
     } else {
@@ -47,15 +51,10 @@ class _MyBase extends State<Base> {
     super.initState();
   }
 
+  // Functions to change the current index. This will be used to indicate which tab is user currently in
   void setBaseCurrentIndex(BuildContext context, int value) async {
     setState(() {
       _homeCurrentIndex = value;
-    });
-  }
-
-  void setIsBottomBarVisible(bool value) {
-    setState(() {
-      isBottomBarVisible = value;
     });
   }
 
@@ -68,11 +67,14 @@ class _MyBase extends State<Base> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
+              // If there are any error while running 'myFuture' function
               return const Text("Something went wrong. Please try again next time");
             } else if (snapshot.hasData) {
               if (snapshot.data! == false) {
+                // If 'myFuture' function return false
                 return const Text("Something went wrong. Please try again next time");
               } else {
+                // Assigning the data that we obtain from 'myFuture'
                 data ??= snapshot.data! as Map<String, dynamic>;
 
                 userName = data!["userName"];
@@ -451,8 +453,8 @@ class _MyBase extends State<Base> {
     String userName = await SecureStorage.readStorage("name");
     List? diagnoseHistory;
     List? workoutHistory;
-    // Try to get workoutHistory from SecureStorage
 
+    // Try to get workoutHistory from SecureStorage
     try {
       diagnoseHistory = jsonDecode(await SecureStorage.readStorage("diagnoseHistory"));
     } catch (e) {
@@ -465,6 +467,8 @@ class _MyBase extends State<Base> {
     } catch (e) {
       print("There is no workoutHistory yet");
     }
+
+    // We will return all data obtained ini Map<String, dynamic>
     return {"userName": userName, "diagnoseHistory": diagnoseHistory, "workoutHistory": workoutHistory};
   }
 }

@@ -2,6 +2,9 @@ import 'package:dynamic_tabbar/dynamic_tabbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// This file contains a widget to list down a detail for each exercise
+// In this page, user get to view in much detail about the exercise
+
 class ExerciseDetailPage extends StatefulWidget {
   List<dynamic> exerciseDetail;
   String bodyPart;
@@ -28,8 +31,8 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF9a9a9a).withOpacity(1),
-                    offset: Offset(7, 5),
+                    color: const Color(0xFF9a9a9a).withOpacity(1),
+                    offset: const Offset(7, 5),
                     blurRadius: 19,
                     spreadRadius: -3,
                   ),
@@ -37,7 +40,7 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
                 borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("assets/png/workout1.jpg"),
+                  image: const AssetImage("assets/png/workout1.jpg"),
                   colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken),
                 ),
               ),
@@ -82,7 +85,7 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: List.generate(widget.exerciseDetail[index]["instructions"].length, (instructionIndex) {
                                       return Container(
-                                          margin: EdgeInsets.only(bottom: 20),
+                                          margin: const EdgeInsets.only(bottom: 20),
                                           child: Text("${instructionIndex + 1}. ${widget.exerciseDetail[index]["instructions"][instructionIndex]}"));
                                     }),
                                   ),

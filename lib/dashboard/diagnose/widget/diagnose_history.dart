@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:health_one/dashboard/diagnose/widget/diagnose.dart';
 import 'package:health_one/storage.dart';
 
+// This file contains a widget to list down all vision diagnose history that user saved
+// In this page, user get to preview back their diagnose history
+
 class DiagnoseHistoryPage extends StatefulWidget {
   const DiagnoseHistoryPage({super.key});
 

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+// Prompt template that will be used to be sent to OpenAPI server when user capture an image
 String imageProcessingPrompt =
     """You are a medical practictioner and an expert in analzying medical related images working for a very reputed hospital. You will be provided with images and you need to identify the anomalies, any disease or health issues. You need to generate the result in detailed manner. Write all the findings, next steps, recommendation. You only need to respond if the image is related to a human body and health issues. You must have to answer but also write a disclaimer saying that \"Consult with a Doctor before making any decisions\". 
     
@@ -48,12 +49,15 @@ String imageProcessingPrompt =
 
     Now analyze the image and answer the above questions in the same structured manner defined above.""";
 
+// Prompt template that will be used to be sent to OpenAPI server when user chat in 'Diagnose' tab
 String chatSystemPrompt =
     """You are a helpful AI health assistant. Your role is to ask the user about their symptoms, help them better understand potential causes, and provide general guidance. 
 However, always remind the user that you are not a substitute for professional medical advice and that they should consult a doctor for a formal diagnosis.
 
     Please make sure you are not trying to bold, italic or underline any word. Just a plain text.
 """;
+
+// Function to encode the image to be used when submit to GPT
 Future<String> encodeImage(imagePath) async {
 // convert image into file object
   File _imageFile = File(imagePath);
@@ -67,6 +71,7 @@ Future<String> encodeImage(imagePath) async {
   return Future.value(base64String);
 }
 
+// Function to make a HTTP POST request to OpenAPI server to get response about the image
 Future<Map<String, dynamic>> imageProcessingGPT4Model(String filename) async {
   Uri url = Uri.parse("https://api.openai.com/v1/chat/completions");
   String base64Image = await encodeImage(filename);
@@ -111,6 +116,7 @@ Future<Map<String, dynamic>> imageProcessingGPT4Model(String filename) async {
   }
 }
 
+// Function to make a HTTP POST request to OpenAPI server to get response about the message that we have sent
 Future<Map<String, dynamic>> chatGPT4Model(List messageHistory) async {
   Uri url = Uri.parse("https://api.openai.com/v1/chat/completions");
   String apiAccessToken = dotenv.env["OPENAI_API_KEY"]!;
