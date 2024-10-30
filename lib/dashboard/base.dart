@@ -58,6 +58,39 @@ class _MyBase extends State<Base> {
     });
   }
 
+  void setDiagnoseHistory(List? value) {
+    setState(() {
+      diagnoseHistory = value;
+    });
+  }
+
+  void setWorkoutHistory(List? value) {
+    setState(() {
+      workoutHistory = value;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    List? newDiagnoseHistory;
+    List? newWorkoutHistory;
+    // Try to get workoutHistory from SecureStorage
+    try {
+      newDiagnoseHistory = jsonDecode(await SecureStorage.readStorage("diagnoseHistory"));
+    } catch (e) {
+      print("There is no diagnoseHistory yet");
+    }
+
+    // Try to get workoutHistory from SecureStorage
+    try {
+      newWorkoutHistory = jsonDecode(await SecureStorage.readStorage("workoutHistory"));
+    } catch (e) {
+      print("There is no workoutHistory yet");
+    }
+
+    setDiagnoseHistory(newDiagnoseHistory);
+    setWorkoutHistory(newWorkoutHistory);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,12 +107,14 @@ class _MyBase extends State<Base> {
                 // If 'myFuture' function return false
                 return const Text("Something went wrong. Please try again next time");
               } else {
-                // Assigning the data that we obtain from 'myFuture'
-                data ??= snapshot.data! as Map<String, dynamic>;
+                if (data == null) {
+                  // Assigning the data that we obtain from 'myFuture'
+                  data ??= snapshot.data! as Map<String, dynamic>;
 
-                userName = data!["userName"];
-                diagnoseHistory = data!["diagnoseHistory"];
-                workoutHistory = data!["workoutHistory"];
+                  userName = data!["userName"];
+                  diagnoseHistory = data!["diagnoseHistory"];
+                  workoutHistory = data!["workoutHistory"];
+                }
               }
             }
           }
@@ -104,307 +139,309 @@ class _MyBase extends State<Base> {
                       ),
                     ),
                     Expanded(
-                        child: SingleChildScrollView(
-                      child: Container(
-                        color: Color(0xffF2F1F3),
-                        child: Padding(
+                        child: Container(
+                      color: Color(0xffF2F1F3),
+                      child: RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: ListView(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: 14),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 14.0),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(
-                                        child: Text(
-                                          "Vision Diagnose",
-                                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: Color(0xff4E4E4E)),
-                                        ),
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 14),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 14.0),
+                                child: Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                        "Vision Diagnose",
+                                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: Color(0xff4E4E4E)),
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/diagnoseHistory');
-                                        },
-                                        child: const Text(
-                                          "View all",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.blue),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    diagnoseHistory != null
+                                        ? InkWell(
+                                            onTap: () {
+                                              Navigator.pushNamed(context, '/diagnoseHistory');
+                                            },
+                                            child: const Text(
+                                              "View all",
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.blue),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
                                 ),
                               ),
-                              diagnoseHistory == null
-                                  ? Container(
-                                      margin: EdgeInsets.only(bottom: 30),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/identifySickness');
-                                        },
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          height: 200,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffFFC49B),
-                                              borderRadius: BorderRadius.circular(20),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Color(0xff1d1c21).withOpacity(1),
-                                                  offset: Offset(3, 3),
-                                                  blurRadius: 0,
-                                                  spreadRadius: 1,
+                            ),
+                            diagnoseHistory == null
+                                ? Container(
+                                    margin: EdgeInsets.only(bottom: 30),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, '/identifySickness');
+                                      },
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        height: 200,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffFFC49B),
+                                            borderRadius: BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0xff1d1c21).withOpacity(1),
+                                                offset: Offset(3, 3),
+                                                blurRadius: 0,
+                                                spreadRadius: 1,
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              children: [
+                                                Text("You don't have any diagnose history yet"),
+                                                Text("Give it a try"),
+                                                SizedBox(
+                                                  height: 30,
                                                 ),
+                                                Icon(
+                                                  Icons.add_circle,
+                                                  size: 50,
+                                                )
                                               ],
                                             ),
-                                            child: const Padding(
-                                              padding: const EdgeInsets.all(20.0),
-                                              child: Column(
-                                                children: [
-                                                  Text("You don't have any diagnose history yet"),
-                                                  Text("Give it a try"),
-                                                  SizedBox(
-                                                    height: 30,
-                                                  ),
-                                                  Icon(
-                                                    Icons.add_circle,
-                                                    size: 50,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      margin: EdgeInsets.only(bottom: 30),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffFFC49B),
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xff1d1c21).withOpacity(1),
-                                            offset: Offset(3, 3),
-                                            blurRadius: 0,
-                                            spreadRadius: 1,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          children: List.generate(diagnoseHistory!.length, (index) {
-                                            if (index < 3) {
-                                              return InkWell(
-                                                onTap: () async {
-                                                  await Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) => DiagnosePage(
-                                                            imagePath: diagnoseHistory![index]["imagePath"],
-                                                            diagnoseDetail: diagnoseHistory![index],
-                                                          )));
-                                                },
-                                                child: Container(
-                                                  decoration:
-                                                      BoxDecoration(color: Colors.white.withOpacity(0.7), borderRadius: BorderRadius.circular(20)),
-                                                  margin: EdgeInsets.only(bottom: 20),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(8.0),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: Color(0xff1d1c21).withOpacity(1),
-                                                                offset: Offset(3, 3),
-                                                                blurRadius: 0,
-                                                                spreadRadius: 1,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(8.0),
-                                                            child: Image.file(
-                                                              File(diagnoseHistory![index]["imagePath"]),
-                                                              height: 70.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 20,
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            diagnoseHistory![index]["name of finding"]!,
-                                                            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                                                            overflow: TextOverflow.clip,
-                                                          ),
-                                                        ),
-                                                        Icon(Icons.arrow_circle_right_rounded)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          }),
                                         ),
                                       ),
                                     ),
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 14),
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 14.0),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(
-                                        child: Text(
-                                          "Workout Plan",
-                                          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: Color(0xff4E4E4E)),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(bottom: 30),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffFFC49B),
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xff1d1c21).withOpacity(1),
+                                          offset: Offset(3, 3),
+                                          blurRadius: 0,
+                                          spreadRadius: 1,
                                         ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/exerciseHistory');
-                                        },
-                                        child: const Text(
-                                          "View all",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.blue),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              workoutHistory == null
-                                  ? Container(
-                                      margin: EdgeInsets.only(bottom: 30),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(context, '/workoutPlanForm');
-                                        },
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          height: 200,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffFFC49B),
-                                              borderRadius: BorderRadius.circular(20),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Color(0xff1d1c21).withOpacity(1),
-                                                  offset: Offset(3, 3),
-                                                  blurRadius: 0,
-                                                  spreadRadius: 1,
-                                                ),
-                                              ],
-                                            ),
-                                            child: const Padding(
-                                              padding: const EdgeInsets.all(20.0),
-                                              child: Column(
-                                                children: [
-                                                  Text("You don't have any workout plan history yet"),
-                                                  Text("Give it a try"),
-                                                  SizedBox(
-                                                    height: 30,
-                                                  ),
-                                                  Icon(
-                                                    Icons.add_circle,
-                                                    size: 50,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
-                                      margin: EdgeInsets.only(bottom: 30),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffFFC49B),
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xff1d1c21).withOpacity(1),
-                                            offset: Offset(3, 3),
-                                            blurRadius: 0,
-                                            spreadRadius: 1,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          children: List.generate(workoutHistory!.length, (index) {
-                                            if (index < 3) {
-                                              return InkWell(
-                                                onTap: () async {
-                                                  await Navigator.of(context).push(MaterialPageRoute(
-                                                      builder: (context) => GeneratedWorkoutPlanPage(
-                                                            // diagnoseDetail: diagnoseHistory![index],
-                                                            workoutDetail: workoutHistory?[index] as Map<String, dynamic>,
-                                                            dataExisted: true,
-                                                          )));
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.only(bottom: 20),
-                                                  decoration:
-                                                      BoxDecoration(color: Colors.white.withOpacity(0.7), borderRadius: BorderRadius.circular(20)),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                workoutHistory![index]["result"]["goal"]!,
-                                                                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                                                                overflow: TextOverflow.clip,
-                                                              ),
-                                                              Text(
-                                                                workoutHistory![index]["result"]["fitness_level"]!,
-                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                                                overflow: TextOverflow.clip,
-                                                              ),
-                                                              Text(
-                                                                "${workoutHistory![index]["result"]["schedule"]["days_per_week"]!.toString()} days per week",
-                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                                                overflow: TextOverflow.clip,
-                                                              ),
-                                                              Text(
-                                                                "${workoutHistory![index]["result"]["schedule"]["session_duration"]!.toString()} minutes",
-                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                                                overflow: TextOverflow.clip,
-                                                              )
-                                                            ],
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        children: List.generate(diagnoseHistory!.length, (index) {
+                                          if (index < 3) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                await Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => DiagnosePage(
+                                                          imagePath: diagnoseHistory![index]["imagePath"],
+                                                          diagnoseDetail: diagnoseHistory![index],
+                                                        )));
+                                              },
+                                              child: Container(
+                                                decoration:
+                                                    BoxDecoration(color: Colors.white.withOpacity(0.7), borderRadius: BorderRadius.circular(20)),
+                                                margin: EdgeInsets.only(bottom: 20),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(8.0),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Color(0xff1d1c21).withOpacity(1),
+                                                              offset: Offset(3, 3),
+                                                              blurRadius: 0,
+                                                              spreadRadius: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.circular(8.0),
+                                                          child: Image.file(
+                                                            File(diagnoseHistory![index]["imagePath"]),
+                                                            height: 70.0,
                                                           ),
                                                         ),
-                                                        Icon(Icons.arrow_circle_right_rounded)
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          diagnoseHistory![index]["name of finding"]!,
+                                                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                                                          overflow: TextOverflow.clip,
+                                                        ),
+                                                      ),
+                                                      Icon(Icons.arrow_circle_right_rounded)
+                                                    ],
                                                   ),
                                                 ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          }),
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        }),
+                                      ),
+                                    ),
+                                  ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 14),
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 14.0),
+                                child: Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                        "Workout Plan",
+                                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500, color: Color(0xff4E4E4E)),
+                                      ),
+                                    ),
+                                    workoutHistory != null
+                                        ? InkWell(
+                                            onTap: () {
+                                              Navigator.pushNamed(context, '/exerciseHistory');
+                                            },
+                                            child: const Text(
+                                              "View all",
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.blue),
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            workoutHistory == null
+                                ? Container(
+                                    margin: EdgeInsets.only(bottom: 30),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, '/workoutPlanForm');
+                                      },
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        height: 200,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffFFC49B),
+                                            borderRadius: BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0xff1d1c21).withOpacity(1),
+                                                offset: Offset(3, 3),
+                                                blurRadius: 0,
+                                                spreadRadius: 1,
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              children: [
+                                                Text("You don't have any workout plan history yet"),
+                                                Text("Give it a try"),
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Icon(
+                                                  Icons.add_circle,
+                                                  size: 50,
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    )
-                            ],
-                          ),
+                                    ),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(bottom: 30),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffFFC49B),
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xff1d1c21).withOpacity(1),
+                                          offset: Offset(3, 3),
+                                          blurRadius: 0,
+                                          spreadRadius: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        children: List.generate(workoutHistory!.length, (index) {
+                                          if (index < 3) {
+                                            return InkWell(
+                                              onTap: () async {
+                                                await Navigator.of(context).push(MaterialPageRoute(
+                                                    builder: (context) => GeneratedWorkoutPlanPage(
+                                                          // diagnoseDetail: diagnoseHistory![index],
+                                                          workoutDetail: workoutHistory?[index] as Map<String, dynamic>,
+                                                          dataExisted: true,
+                                                        )));
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(bottom: 20),
+                                                decoration:
+                                                    BoxDecoration(color: Colors.white.withOpacity(0.7), borderRadius: BorderRadius.circular(20)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              workoutHistory![index]["result"]["goal"]!,
+                                                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                                                              overflow: TextOverflow.clip,
+                                                            ),
+                                                            Text(
+                                                              workoutHistory![index]["result"]["fitness_level"]!,
+                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                                              overflow: TextOverflow.clip,
+                                                            ),
+                                                            Text(
+                                                              "${workoutHistory![index]["result"]["schedule"]["days_per_week"]!.toString()} days per week",
+                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                                              overflow: TextOverflow.clip,
+                                                            ),
+                                                            Text(
+                                                              "${workoutHistory![index]["result"]["schedule"]["session_duration"]!.toString()} minutes",
+                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                                              overflow: TextOverflow.clip,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Icon(Icons.arrow_circle_right_rounded)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
+                                        }),
+                                      ),
+                                    ),
+                                  )
+                          ],
                         ),
                       ),
                     ))

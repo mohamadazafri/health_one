@@ -161,13 +161,9 @@ class _IdentifySicknessState extends State<IdentifySicknessPage> {
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      InkWell(
-                                        onTap: () async {},
-                                        child: const FaIcon(
-                                          FontAwesomeIcons.image,
-                                          color: Color(0xffF2F1F3),
-                                          size: 30,
-                                        ),
+                                      SizedBox(
+                                        width: 30,
+                                        child: Container(),
                                       ),
                                       InkWell(
                                           onTap: () async {
