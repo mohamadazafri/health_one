@@ -80,3 +80,71 @@ RAPID_API_KEY=[Your Rapid API key]
 Please refer to this link on how to get OpenAI API and Rapid API key<br />
 OpenAI API: https://platform.openai.com/docs/quickstart<br />
 Rapid API: https://docs.rapidapi.com/docs/keys-and-key-rotation
+
+## Privacy Policy
+Effective Date: 16th November 2024
+
+Health One is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application ("Health One"). Please read this Privacy Policy carefully to understand our practices regarding your information and how we will treat it.
+
+1. Information We Collect
+We may collect the following types of information when you use the App:
+
+a. Personal Information
+Information you provide directly, such as:
+Name
+Fitness goals or health-related preferences (optional)
+
+b. Automatically Collected Information
+App usage data (e.g., features accessed, time spent)
+Diagnostic and performance data for improving the app experience.
+
+2. How We Use Your Information
+We use the information collected to:
+Provide and improve the functionality of the App.
+Personalize your experience, including generating workout plans and responding to health concerns.
+Analyze app performance and troubleshoot technical issues.
+Communicate updates, promotions, or important notifications about the App.
+
+3. How We Share Your Information
+We do not sell or rent your personal information. However, we may share your information in the following cases:
+Service Providers: With trusted third-party providers who assist us in operating the App, such as cloud hosting and AI processing services.
+Legal Compliance: If required by law or to comply with legal obligations.
+Business Transfers: In the event of a merger, sale, or acquisition, your information may be transferred as part of the business assets.
+
+4. Data Security
+We implement reasonable technical and organizational measures to protect your information against unauthorized access, loss, misuse, or alteration. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
+
+5. Your Privacy Rights
+Depending on your location, you may have the following rights:
+
+Access to the personal information we hold about you.
+Request correction or deletion of your personal information.
+Restrict or object to the processing of your information.
+Data portability, where applicable.
+To exercise these rights, contact us at [Your Contact Email Address].
+
+6. Retention of Information
+We retain your information only as long as necessary to fulfill the purposes outlined in this Privacy Policy unless a longer retention period is required by law.
+
+7. Use of AI and Uploaded Content
+When you use features such as the AI Visual Diagnosis or Health Chatbot:
+
+Uploaded photos are processed by AI algorithms to provide health insights. These photos are not stored permanently on our servers unless required for feature functionality (e.g., history tracking).
+Chat history with the AI Health Chatbot is temporarily stored to improve user experience and provide contextual responses but is not shared with third parties.
+8. Third-Party APIs and Integrations
+The App integrates with third-party APIs, including:
+
+OpenAI API (ChatGPT 4.0): Used for AI Health Chatbot and workout plan generation.
+ExerciseDB API: Used to provide exercise information and suggestions.
+These third parties may collect and process data according to their own privacy policies. We recommend reviewing their policies to understand their practices.
+
+9. Children’s Privacy
+The App is not intended for use by children under the age of 13. We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected personal information from a child, we will take steps to delete such information promptly.
+
+10. Changes to This Privacy Policy
+We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We encourage you to review this Privacy Policy periodically. Your continued use of the App after changes are posted constitutes your acceptance of the updated Privacy Policy.
+
+11. Contact Us
+If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:
+
+Email: azafri9@gmail.com
