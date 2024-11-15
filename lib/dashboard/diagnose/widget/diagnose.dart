@@ -63,7 +63,11 @@ class _DiagnosePageState extends State<DiagnosePage> {
                   if (widget.diagnoseDetail != null) {
                     diagnoseResult = gptResponse;
                   } else {
-                    diagnoseResult = jsonDecode(gptResponse!["choices"][0]["message"]["content"]);
+                    try {
+                      diagnoseResult = jsonDecode(gptResponse!["choices"][0]["message"]["content"]);
+                    } catch (e) {
+                      return const Center(child: Text("Something went wrong. Please try again"));
+                    }
                   }
                 }
               }
@@ -133,61 +137,101 @@ class _DiagnosePageState extends State<DiagnosePage> {
                               width: double.infinity,
                               child: gptResponse != null
                                   ? SingleChildScrollView(
-                                      child:
-                                          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                        Text(
-                                          diagnoseResult!["name of finding"]!,
-                                          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 20),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Explanation",
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                              ),
-                                              Text(
-                                                diagnoseResult!["explanation of finding"]!,
-                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 20),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "What should you do",
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                              ),
-                                              Text(
-                                                diagnoseResult!["next steps"]!,
-                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.only(bottom: 20),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text(
-                                                "Recommendations",
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                              ),
-                                              Text(
-                                                diagnoseResult!["recommendations"]!,
-                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ]),
+                                      child: diagnoseResult!["code"] != "0"
+                                          ? Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                  Text(
+                                                    diagnoseResult!["name of finding"]!,
+                                                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        const Text(
+                                                          "Explanation",
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                        ),
+                                                        Text(
+                                                          diagnoseResult!["explanation of finding"]!,
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        const Text(
+                                                          "What should you do",
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                        ),
+                                                        Text(
+                                                          diagnoseResult!["next steps"]!,
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: const EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        const Text(
+                                                          "Recommendations",
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                        ),
+                                                        Text(
+                                                          diagnoseResult!["recommendations"]!,
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ])
+                                          : Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                  const Text(
+                                                    "Can't identify the picture",
+                                                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          diagnoseResult!["message"]!,
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 20),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        const Text(
+                                                          "Disclaimer",
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                                        ),
+                                                        Text(
+                                                          diagnoseResult!["disclaimer"]!,
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ]),
                                     )
                                   : Container(
                                       child: Text("Loading response"),
@@ -198,7 +242,7 @@ class _DiagnosePageState extends State<DiagnosePage> {
                       ),
                     ),
                   ),
-                  widget.diagnoseDetail == null
+                  widget.diagnoseDetail == null && diagnoseResult?["code"] != "0" && diagnoseResult != null
                       ? Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),

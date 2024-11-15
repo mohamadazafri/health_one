@@ -81,17 +81,17 @@ class _DiagnoseHistoryPageState extends State<DiagnoseHistoryPage> {
                   ),
                   diagnoseHistory != null
                       ? Expanded(
+                          child: SingleChildScrollView(
                           child: Container(
-                          margin: EdgeInsets.only(bottom: 30),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              children: List.generate(diagnoseHistory!.length, (index) {
-                                if (index < 3) {
+                            margin: EdgeInsets.only(bottom: 30),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: List.generate(diagnoseHistory!.length, (index) {
                                   return InkWell(
                                     onTap: () async {
                                       await Navigator.of(context).push(MaterialPageRoute(
@@ -154,10 +154,8 @@ class _DiagnoseHistoryPageState extends State<DiagnoseHistoryPage> {
                                       ),
                                     ),
                                   );
-                                } else {
-                                  return Container();
-                                }
-                              }),
+                                }),
+                              ),
                             ),
                           ),
                         ))
