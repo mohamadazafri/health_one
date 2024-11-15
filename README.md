@@ -121,7 +121,6 @@ Access to the personal information we hold about you.
 Request correction or deletion of your personal information.
 Restrict or object to the processing of your information.
 Data portability, where applicable.
-To exercise these rights, contact us at [Your Contact Email Address].
 
 6. Retention of Information
 We retain your information only as long as necessary to fulfill the purposes outlined in this Privacy Policy unless a longer retention period is required by law.
