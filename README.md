@@ -1,3 +1,6 @@
+
+![Good health and well-being](https://github.com/user-attachments/assets/9725755d-d5f2-492b-8779-076e23b20dba)
+
 ## Setting up
 
 ### Download Android Studio
